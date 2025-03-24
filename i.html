@@ -1,27 +1,39 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Комплект Сервис</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 </head>
+
 <body>
     <header class="container py-3">
         <div class="row align-items-center">
-            <div class="col-md-3 text-center">
+            <div class="col-md-3 d-flex align-items-center">
                 <a href="/">
                     <img src="https://komplekt-serv.ru/wp-content/themes/komplect/img/logo.png" alt="Логотип">
                 </a>
             </div>
-            <div class="col-md-3 text-center">
-                <p><strong>Как нас найти:</strong><br>г. Воронеж, ул. Брянская, 87</p>
+            <div class="col-md-3 d-flex align-items-center">
+                <i class="bi bi-geo-alt"></i>
+                <p class="mb-0 ms-2"><strong>Как нас найти:</strong><br>г. Воронеж, ул. Брянская, 87</p>
             </div>
-            <div class="col-md-3 text-center">
-                <p><strong>Телефон:</strong><br><a href="tel:+74732584417">+7 (473) 258-44-17</a></p>
+            <div class="col-md-3 d-flex align-items-center">
+                <i class="bi bi-telephone"></i>
+                <p class="mb-0 ms-2"><strong>Телефон:</strong><br><a href="tel:+74732584417">+7 (473) 258-44-17</a></p>
             </div>
-            <div class="col-md-3 text-center">
-                <p><strong>Email:</strong><br><a href="mailto:komplekt-servis01@yandex.ru">komplekt-servis01@yandex.ru</a></p>
+            <div class="col-md-3 d-flex align-items-center justify-content-between">
+                <div>
+                    <i class="bi bi-envelope"></i>
+                    <p class="mb-0 ms-2 d-inline-block"><strong>Email:</strong><br><a
+                            href="mailto:komplekt-servis01@yandex.ru">komplekt-servis01@yandex.ru</a></p>
+                </div>
+                <a href="#" class="search-icon border p-2 d-inline-block">
+                    <i class="bi bi-search"></i>
+                </a>
             </div>
         </div>
         <nav class="navbar navbar-expand-lg navbar-light bg-light mt-3">
@@ -42,13 +54,10 @@
             </div>
         </nav>
     </header>
-    
+
     <main class="container my-4">
-        <section class="text-center p-4 bg-dark text-white">
-            <h2>Производство крепежа из российского металлопроката</h2>
-            <button class="btn btn-primary mt-3">Перейти в каталог</button>
-        </section>
-        <section class="row mt-4">
+        <section class="row">
+            <!-- Левая колонка: Каталог и Лицензии -->
             <div class="col-md-3">
                 <h5>Каталог</h5>
                 <ul class="list-group">
@@ -59,62 +68,399 @@
                     <li class="list-group-item">Пробки</li>
                     <li class="list-group-item">Анкера</li>
                 </ul>
+
+                <!-- Блок Лицензии -->
+                <h5 class="mt-4">Лицензии</h5>
+                <div id="licenseCarousel" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <img src="license1.jpg" class="d-block w-100" alt="Лицензия 1">
+                        </div>
+                        <div class="carousel-item">
+                            <img src="license2.jpg" class="d-block w-100" alt="Лицензия 2">
+                        </div>
+                        <div class="carousel-item">
+                            <img src="license3.jpg" class="d-block w-100" alt="Лицензия 3">
+                        </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#licenseCarousel"
+                        data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#licenseCarousel"
+                        data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    </button>
+                </div>
             </div>
+
+            <!-- Правая колонка: Основные направления и форма -->
             <div class="col-md-9">
-                <h5>Основные направления</h5>
+                <h5><strong>Основные направления</strong></h5>
                 <div class="row">
-                    <div class="col-md-4">
-                        <div class="card">
-                            <img src="bolt.jpg" class="card-img-top" alt="Болты">
-                            <div class="card-body">
-                                <h6 class="card-title">Болты</h6>
-                                <p class="card-text">Диаметры до М150, длина до 1,5 м.</p>
+                    <div class="col-md-6 mb-3">
+                        <div class="d-flex border p-3">
+                            <img src="cat_1.png" class="me-3" alt="Болты" style="width:100px; height:auto;">
+                            <div>
+                                <h6><strong>Болты</strong></h6>
+                                <p class="mb-0">Диаметры до М150, длина до 1,5 м.</p>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
-                        <div class="card">
-                            <img src="nut.jpg" class="card-img-top" alt="Гайки">
-                            <div class="card-body">
-                                <h6 class="card-title">Гайки</h6>
-                                <p class="card-text">Гайки шестигранные для фланцевых соединений.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card">
-                            <img src="washer.jpg" class="card-img-top" alt="Шайбы">
-                            <div class="card-body">
-                                <h6 class="card-title">Шайбы</h6>
-                                <p class="card-text">Шайбы для фланцевых соединений.</p>
+                    <div class="col-md-6 mb-3">
+                        <div class="d-flex border p-3">
+                            <img src="cat_2.png" class="me-3" alt="Гайки" style="width:100px; height:auto;">
+                            <div>
+                                <h6><strong>Гайки</strong></h6>
+                                <p class="mb-0">Гайки шестигранные для фланцевых соединений.</p>
                             </div>
                         </div>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <div class="d-flex border p-3">
+                            <img src="cat_3.png" class="me-3" alt="Шпильки" style="width:100px; height:auto;">
+                            <div>
+                                <h6><strong>Шпильки</strong></h6>
+                                <p class="mb-0">Шпильки с полной резьбой, для фланцевых соединений.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="d-flex border p-3">
+                            <img src="cat_4.png" class="me-3" alt="Шайбы" style="width:100px; height:auto;">
+                            <div>
+                                <h6><strong>Шайбы</strong></h6>
+                                <p class="mb-0">Шайбы пружинные, для фланцевых соединений, плоские и др.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <div class="d-flex border p-3">
+                            <img src="din_910_steel.jpg" class="me-3" alt="Пробки" style="width:100px; height:auto;">
+                            <div>
+                                <h6><strong>Пробки</strong></h6>
+                                <p class="mb-0">Пробки из различных видов стали по чертежам заказчика.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="d-flex border p-3">
+                            <img src="cat_6.png" class="me-3" alt="Анкера" style="width:100px; height:auto;">
+                            <div>
+                                <h6><strong>Анкера</strong></h6>
+                                <p class="mb-0">Анкерные болты по индивидуальным заказам.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Форма обратной связи -->
+                <section class="text-center p-4 bg-dark text-white mt-4">
+                    <h2>Задать вопрос</h2>
+                    <form>
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" placeholder="Ваше имя">
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" placeholder="Номер телефона">
+                            </div>
+                            <div class="col-md-4">
+                                <input type="email" class="form-control" placeholder="Электронная почта">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <textarea class="form-control" rows="3" placeholder="Ваше сообщение"></textarea>
+                        </div>
+                        <div class="form-check text-start">
+                            <input class="form-check-input" type="checkbox" id="dataAgreement">
+                            <label class="form-check-label" for="dataAgreement">
+                                Я даю согласие на обработку персональных данных в соответствии с законом
+                            </label>
+                        </div>
+                        <button type="submit" class="btn btn-primary mt-3">Отправить</button>
+                    </form>
+                </section>
+
+                <style>
+                    .hide_text .text {
+                        max-height: 500px;
+                        /* Ограниченная высота */
+                        overflow: hidden;
+                        transition: max-height 0.3s ease-in-out;
+                    }
+
+                    .hide_text.expanded .text {
+                        max-height: none;
+                        /* Полное отображение */
+                    }
+
+                    .more {
+                        display: inline-block;
+                        margin-top: 10px;
+                        padding: 8px 15px;
+                        background-color: #007bff;
+                        color: white;
+                        text-decoration: none;
+                        border-radius: 5px;
+                        cursor: pointer;
+                    }
+                </style>
+
+                <div id="sec-6">
+                    <div class="hide_text">
+                        <div class="text">
+                            <div class="text">
+                                <h1>Купить болты, анкера, гайки, пробки, шайбы, шпильки и другую крепежную продукцию
+                                </h1>
+                                <p><img class="alignright"
+                                        src="https://komplekt-serv.ru/wp-content/uploads/2020/06/sec-6_img.png"
+                                        alt="болты купить" width="235"></p>
+                                <p>ООО ПК «Комплект-Сервис» более 5 лет успешно работает на рынке крепежной продукции,
+                                    метизов для следующих сфер промышленности:</p>
+                                <ul>
+                                    <li>газоперерабатывающей;</li>
+                                    <li>металлургической;</li>
+                                    <li>энергетической;</li>
+                                    <li>химической и т.д.</li>
+                                </ul>
+                                <p>Основная задача компании – оперативная комплектация заказчиков качественной
+                                    продукцией. Наша компания несет ответственность за каждую поставку и выполняет
+                                    договорные обязательства на 100%. У нас вы можете <em>купить в Воронеже болты,
+                                        гайки, анкера</em> по наиболее приемлемой стоимости.</p>
+                                <h2>Покупка болтов, гаек, анкеров – цены</h2>
+                                <p>Мы предлагаем установить взаимовыгодное, долгосрочное сотрудничество между нашими
+                                    предприятиями по поставке крепежной продукции согласно ГОСТам, ОСТам, ТУ. Помимо
+                                    этого, наши специалисты работают с металлом по индивидуальным чертежам, которые
+                                    предоставляют заказчики. Стоимость зависит от параметров заказа, например:</p>
+                                <ul>
+                                    <li>объёмы партии;</li>
+                                    <li>сроки выполнения;</li>
+                                    <li>точность обработки, сложность выполнения детали;</li>
+                                    <li>нанесение защитного покрытия и т.д.</li>
+                                </ul>
+                                <p>Подробнее об этом вы узнаете у нашего менеджера, позвонив по одному из контактных
+                                    телефонов, или заполнив форму обратной связи.</p>
+                                <h2>Наша продукция: болты, гайки, шпильки</h2>
+                                <p>Если говорить про продукцию, которая изготавливается по индивидуальным чертежам, то
+                                    мы работаем с 09Г2С, 12Х18Н10Т, 14Х17Н2Т, ст.35, 0ХН3А, 20Х13, 25Х1МФ, 30ХМА,
+                                    45ХВ14В2М, ст. 20, 40Х, 10Х17Н13М2Т и др.</p>
+                                <p><img class="size-medium wp-image-341 alignright"
+                                        src="https://komplekt-serv.ru/wp-content/uploads/2020/09/bolt-300x300.jpg"
+                                        alt="болты на заказ" width="300" height="300"
+                                        srcset="https://komplekt-serv.ru/wp-content/uploads/2020/09/bolt-300x300.jpg 300w, https://komplekt-serv.ru/wp-content/uploads/2020/09/bolt-150x150.jpg 150w, https://komplekt-serv.ru/wp-content/uploads/2020/09/bolt.jpg 512w"
+                                        sizes="(max-width: 300px) 100vw, 300px"></p>
+                                <p>Также в каталоге представлены:</p>
+                                <ul>
+                                    <li>шпильки (с полной резьбой, для фланцевых компонентов, с гладкими отверстиями и
+                                        другие);</li>
+                                    <li>гайки (шестигранные для фланцевых изделий разных параметров);</li>
+                                    <li>шайбы (плоские, пружинные, увеличенные и другие);</li>
+                                    <li>пробки по DIN910, DIN7604 а так же по чертежам заказчика, методом горячей
+                                        высадки (штамповки) и механической обработки;</li>
+                                    <li>болты разных диаметров и размеров, в том числе фундаментные (анкерные),
+                                        шестигранные, высокопрочные и т.д.).</li>
+                                </ul>
+                                <p>Вся представленная продукция соответствует государственным стандартам.</p>
+                                <h3>Дополнительные услуги: покрытие гаек и болтов</h3>
+                                <p>Если есть потребность, то по вашему желанию наши изделия могут быть покрыты
+                                    специализированными защитными составами и средствами:</p>
+                                <ul>
+                                    <li>термодиффузионной обработкой;</li>
+                                    <li>гальваническим оцинкованием;</li>
+                                    <li>кадмированием.</li>
+                                </ul>
+                                <h3>Доставка и комплектация купленных гаек, анкеров, болтов и пробок</h3>
+                                <p>Транспортировка наших изделий осуществляется любым удобным заказчику способом по всей
+                                    территории страны. Также мы организуем доставку на предприятия ближнего зарубежья.
+                                    Купленные болты, гайки и другие продукты придут с полным документационным
+                                    сопровождением в виде сертификатов (для используемых материалов), паспортов.</p>
+                                <p>Мы полностью комплектуем заказы с минимальным объемом партии от 1 штуки. У нас
+                                    заказывают самые разные объемы – от картонной упаковки до фуры.</p>
+                                <p><img class="size-medium wp-image-344 alignright"
+                                        src="https://komplekt-serv.ru/wp-content/uploads/2020/09/f0035187-300x208.jpg"
+                                        alt="болты изготовить" width="300" height="208"
+                                        srcset="https://komplekt-serv.ru/wp-content/uploads/2020/09/f0035187-300x208.jpg 300w, https://komplekt-serv.ru/wp-content/uploads/2020/09/f0035187.jpg 600w"
+                                        sizes="(max-width: 300px) 100vw, 300px"></p>
+                                <h3>О нашем сервисе по продаже болтов и других крепежных изделий</h3>
+                                <p>Наши принципы в работе:</p>
+                                <ol>
+                                    <li>Поставка качественной и надежной продукции — основа спокойствия и
+                                        удовлетворенности наших партнеров.</li>
+                                    <li>Профессионализм, честность и открытость, а также взаимное доверие в работе с
+                                        клиентами.</li>
+                                    <li>Долгосрочные партнерские отношения и оперативное выполнение заявок Заказчиков с
+                                        учетом их технологических, технических и экономических требований.</li>
+                                    <li>Имидж предприятия и сложившийся авторитет.</li>
+                                </ol>
+                                <p>Наша цель: своевременное удовлетворение потребностей наших партнеров в
+                                    высококачественной продукции.</p>
+                                <p>Причины, почему изготовление у нас будет выгодным:</p>
+                                <ol>
+                                    <li>У нас есть новое современное оборудование, которое позволяет выполнять
+                                        автоматизированную обработку самых сложных деталей. Производство полностью
+                                        сертифицировано.</li>
+                                    <li>Специалисты ООО ПК «Комплект-Сервис» берутся за выполнение работ любой
+                                        сложности.</li>
+                                    <li>Мы контролируем качество работ на каждом этапе производства.</li>
+                                    <li>Мы предоставляем гарантии на свою продукцию. Она будет соответствовать всем
+                                        заявленным требованиям.</li>
+                                    <li>У нас вы найдете конкурентные для рынка цены.</li>
+                                    <li>С нами работают опытные кадры, за плечами которых десятки лет в профессии.</li>
+                                    <li>Мы используем отечественное сырье, что также влияет на стоимость предлагаемых
+                                        изделий.</li>
+                                </ol>
+                                <p>Наше производство находится на территории страны, мы сотрудничаем с предприятиями из
+                                    отдаленных регионов и нашей области, поставки также совершаются на заводы в СНГ.
+                                    Высокое качество выпускаемых компонентов – одна из причин, почему заказчики остаются
+                                    с нами на долгие годы. Мы чутко реагируем на ваши потребности и изменения рынка,
+                                    старясь предложить наиболее лояльные цены. Поэтому, если вы хотите <em>купить болты,
+                                        анкера, гайки</em> по наиболее демократичной стоимости, обращайтесь в ООО ПК
+                                    «Комплект-Сервис». Мы за короткий срок изготовим изделие с необходимыми параметрами,
+                                    укомплектуем ваш заказ и доставим на объект.</p>
+                            </div>
+                        </div>
+                        <a class="more" onclick="toggleText(this)">Читать полностью</a>
+                    </div>
+                </div>
+
+                <script>
+                    function toggleText(button) {
+                        var container = button.closest('.hide_text');
+                        container.classList.toggle('expanded');
+
+                        if (container.classList.contains('expanded')) {
+                            button.textContent = "Скрыть";
+                        } else {
+                            button.textContent = "Читать полностью";
+                        }
+                    }
+                </script>
+
+
+                <p></p>
+
+
+                <div id="sec-7">
+                    <script async="" src="https://mc.yandex.ru/metrika/tag.js"></script>
+                    <iframe
+                        src="https://yandex.ru/map-widget/v1/?lang=ru_RU&amp;scroll=true&amp;source=constructor-api&amp;um=constructor%3Adea16e154e75c71ad5d6efb3209020daf6f19e31d415aeb9fb9712bf1b98f934"
+                        frameborder="0" allowfullscreen="true" width="100%" height="400px" style="display: block;">
+                    </iframe>
+                </div>
             </div>
         </section>
     </main>
+
+    <footer>
+        <style>
+            footer {
+                background-color: #111;
+                color: white;
+                padding: 20px 0;
+                font-family: Arial, sans-serif;
+            }
     
-<!-- Форма обратной связи -->
-<section class="bg-dark text-white py-5" id="contacts">
-    <div class="container text-center">
-        <h2>Задать вопрос</h2>
-        <form class="contact-form mt-3">
-            <div class="mb-3"><input type="text" class="form-control" placeholder="Ваше имя" required></div>
-            <div class="mb-3"><input type="tel" class="form-control" placeholder="Номер телефона" required></div>
-            <div class="mb-3"><textarea class="form-control" rows="3" placeholder="Ваше сообщение" required></textarea></div>
-            <button class="btn btn-light">Отправить</button>
-        </form>
-    </div>
-</section>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-<div id="sec-7">
-    <script async="" src="https://mc.yandex.ru/metrika/tag.js"></script><iframe src="https://yandex.ru/map-widget/v1/?lang=ru_RU&amp;scroll=true&amp;source=constructor-api&amp;um=constructor%3Adea16e154e75c71ad5d6efb3209020daf6f19e31d415aeb9fb9712bf1b98f934" frameborder="0" allowfullscreen="true" width="100%" height="400px" style="display: block;"></iframe>	</div>
-
-
+            .footer-container {
+                display: flex;
+                justify-content: space-around;
+                align-items: center;
+                flex-wrap: wrap;
+                max-width: 1200px;
+                margin: auto;
+            }
+    
+            .footer-logo {
+                text-align: center;
+            }
+    
+            .footer-logo img {
+                max-width: 120px;
+            }
+    
+            .footer-info {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+            }
+    
+            .footer-info div {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+    
+            .footer-info i {
+                font-size: 18px;
+                color: #ccc;
+            }
+    
+            .footer-info a {
+                color: white;
+                text-decoration: none;
+            }
+    
+            .footer-info a:hover {
+                text-decoration: underline;
+            }
+    
+            .footer-social {
+                display: flex;
+                gap: 15px;
+            }
+    
+            .footer-social img {
+                width: 30px;
+                height: 30px;
+            }
+    
+            .footer-aspect img {
+                width: 80px;
+            }
+        </style>
+    
+        <div class="footer-container">
+            <div class="footer-logo">
+                <img src="logo.png" alt="Комплект Сервис">
+                <p>КРЕПЕЖНЫЕ ИЗДЕЛИЯ</p>
+            </div>
+            <div class="footer-info">
+                <div class="footer-contact">
+                    <i class="fas fa-phone"></i>
+                    <span>Контактный телефон:</span>
+                    <a href="tel:+74732584417">+7 (473) 258-44-17</a>
+                </div>
+                <div class="footer-location">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Как нас найти:</span>
+                    <p>г. Воронеж, ул. Брянская, 87</p>
+                </div>
+                <div class="footer-email">
+                    <i class="fas fa-envelope"></i>
+                    <span>E-mail:</span>
+                    <a href="mailto:komplekt-servis01@yandex.ru">komplekt-servis01@yandex.ru</a>
+                </div>
+            </div>
+            <div class="footer-social">
+                <a href="#"><img src="vk.png" alt="VK"></a>
+                <a href="#"><img src="youtube.png" alt="YouTube"></a>
+                <a href="#"><img src="instagram.png" alt="Instagram"></a>
+            </div>
+            <div class="footer-aspect">
+                <img src="aspect.png" alt="Сайт — это аспект">
+            </div>
+        </div>
+    </footer>
+    
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+
+
 </body>
+
 </html>
