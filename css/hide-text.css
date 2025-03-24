@@ -1,0 +1,22 @@
+.hide_text .text {
+    max-height: 500px;
+    /* Ограниченная высота */
+    overflow: hidden;
+    transition: max-height 0.3s ease-in-out;
+}
+
+.hide_text.expanded .text {
+    max-height: none;
+    /* Полное отображение */
+}
+
+.more {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 8px 15px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
