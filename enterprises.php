@@ -76,46 +76,127 @@
         $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password);
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-        // SQL запрос с JOIN для получения данных из обеих таблиц
+        // Получаем список регионов для выпадающего списка
+        $regions = $pdo->query("SELECT id, name FROM regions")->fetchAll(PDO::FETCH_ASSOC);
+
+        // Получаем параметры фильтрации из GET-запроса
+        $nameFilter = $_GET['name'] ?? '';
+        $regionFilter = $_GET['region'] ?? '';
+        $descriptionFilter = $_GET['description'] ?? '';
+        $productionFilter = $_GET['production'] ?? '';
+
+        // Формируем базовый SQL запрос
         $sql = "SELECT e.id, e.facade_photo, e.name, r.name as region_name, e.description, e.production, e.region_Id
-                    FROM enterprises e 
-                    INNER JOIN regions r ON e.region_Id = r.id 
-                    ORDER BY e.production DESC";
+            FROM enterprises e 
+            INNER JOIN regions r ON e.region_Id = r.id";
 
-        $stmt = $pdo->query($sql);
+        // Добавляем условия WHERE в зависимости от заполненных фильтров
+        $whereConditions = [];
+        $params = [];
 
+        if (!empty($nameFilter)) {
+            $whereConditions[] = "e.name LIKE :name";
+            $params[':name'] = '%' . $nameFilter . '%';
+        }
+
+        if (!empty($regionFilter)) {
+            $whereConditions[] = "e.region_Id = :region";
+            $params[':region'] = $regionFilter;
+        }
+
+        if (!empty($descriptionFilter)) {
+            $whereConditions[] = "e.description LIKE :description";
+            $params[':description'] = '%' . $descriptionFilter . '%';
+        }
+
+        if (!empty($productionFilter)) {
+            $whereConditions[] = "e.production = :production";
+            $params[':production'] = str_replace([' ', ','], ['', '.'], $productionFilter);
+        }
+
+        // Добавляем условия WHERE к запросу, если они есть
+        if (!empty($whereConditions)) {
+            $sql .= " WHERE " . implode(" AND ", $whereConditions);
+        }
+
+        $sql .= " ORDER BY e.production DESC";
+
+        // Подготавливаем и выполняем запрос
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute($params);
+
+        // Выводим форму фильтрации
+        echo '<div class="card mb-4">
+            <div class="card-body">
+                <form method="GET" action="" class="row g-3">
+                    <div class="col-md-3">
+                        <label for="name" class="form-label">Название</label>
+                        <input type="text" class="form-control" id="name" name="name" 
+                               value="' . htmlspecialchars($nameFilter) . '" placeholder="Поиск по названию">
+                    </div>
+                    <div class="col-md-2">
+                        <label for="region" class="form-label">Регион</label>
+                        <select class="form-select" id="region" name="region">
+                            <option value="">Все регионы</option>';
+
+        foreach ($regions as $region) {
+            $selected = ($region['id'] == $regionFilter) ? 'selected' : '';
+            echo '<option value="' . $region['id'] . '" ' . $selected . '>' . htmlspecialchars($region['name']) . '</option>';
+        }
+
+        echo '</select>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="description" class="form-label">Описание</label>
+                        <input type="text" class="form-control" id="description" name="description" 
+                               value="' . htmlspecialchars($descriptionFilter) . '" placeholder="Поиск по описанию">
+                    </div>
+                    <div class="col-md-2">
+                        <label for="production" class="form-label">Выработка</label>
+                        <input type="text" class="form-control" id="production" name="production" 
+                               value="' . htmlspecialchars($productionFilter) . '" placeholder="Точное значение">
+                    </div>
+                    <div class="col-md-2 d-flex align-items-end">
+                        <button type="submit" name="apply_filter" class="btn btn-primary me-2">Применить фильтр</button>
+                        <a href="?" class="btn btn-secondary">Сбросить</a>
+                    </div>
+                </form>
+            </div>
+          </div>';
+
+        // Выводим таблицу с данными
         if ($stmt->rowCount() > 0) {
             echo '<div class="table-responsive">
-                    <table class="enterprises-table">
-                        <thead>
-                            <tr>
-                                <th>Фото фасада</th>
-                                <th>Название</th>
-                                <th>Регион</th>
-                                <th>Описание</th>
-                                <th>Выработка в год (руб.)</th>
-                            </tr>
-                        </thead>
-                        <tbody>';
+                <table class="enterprises-table">
+                    <thead>
+                        <tr>
+                            <th>Фото фасада</th>
+                            <th>Название</th>
+                            <th>Регион</th>
+                            <th>Описание</th>
+                            <th>Выработка в год (руб.)</th>
+                        </tr>
+                    </thead>
+                    <tbody>';
 
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 // Форматируем сумму выработки
                 $productionFormatted = number_format($row['production'], 2, ',', ' ');
 
-                echo '<tr>
-                            <td><img src="facade_images/' . htmlspecialchars($row['facade_photo']) . '" alt="Фасад ' . htmlspecialchars($row['name']) . '" class="enterprise-image"></td>
-                            <td>' . htmlspecialchars($row['name']) . '</td>
-                            <td>' . htmlspecialchars($row['region_name']) . '</td>
-                            <td>' . htmlspecialchars($row['description']) . '</td>
-                            <td class="production-cell">' . $productionFormatted . '</td>
-                        </tr>';
+                echo '<tr class="region-' . $row['region_Id'] . '">
+                    <td><img src="facade_images/' . htmlspecialchars($row['facade_photo']) . '" alt="Фасад ' . htmlspecialchars($row['name']) . '" class="enterprise-image"></td>
+                    <td>' . htmlspecialchars($row['name']) . '</td>
+                    <td>' . htmlspecialchars($row['region_name']) . '</td>
+                    <td>' . htmlspecialchars($row['description']) . '</td>
+                    <td class="production-cell">' . $productionFormatted . '</td>
+                </tr>';
             }
 
             echo '</tbody>
-                    </table>
-                </div>';
+                </table>
+            </div>';
         } else {
-            echo '<div class="alert alert-info">Нет данных о предприятиях</div>';
+            echo '<div class="alert alert-info">Нет данных о предприятиях, соответствующих заданным фильтрам</div>';
         }
     } catch (PDOException $e) {
         echo '<div class="alert alert-danger">Ошибка при получении данных: ' . htmlspecialchars($e->getMessage()) . '</div>';
