@@ -1,0 +1,44 @@
+/* Стили для таблицы */
+.enterprises-table {
+    width: 100%;
+    margin-bottom: 1rem;
+    color: #212529;
+    border-collapse: collapse;
+}
+
+.enterprises-table th,
+.enterprises-table td {
+    padding: 0.75rem;
+    vertical-align: top;
+    border-top: 1px solid #dee2e6;
+}
+
+.enterprises-table thead th {
+    vertical-align: bottom;
+    border-bottom: 2px solid #dee2e6;
+    background-color: #f8f9fa;
+}
+
+.enterprises-table tbody tr:nth-of-type(odd) {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.enterprises-table tbody tr:hover {
+    background-color: rgba(0, 0, 0, 0.075);
+}
+
+.enterprise-image {
+    width: 200px;
+    height: auto;
+    max-width: 100%;
+    object-fit: cover;
+}
+
+.table-responsive {
+    overflow-x: auto;
+}
+
+.production-cell {
+    text-align: right;
+    white-space: nowrap;
+}
