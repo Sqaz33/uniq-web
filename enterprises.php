@@ -1,3 +1,4 @@
+<?php include 'table_logic.php'; ?>
 <!DOCTYPE html>
 <html lang="ru">
 
@@ -65,173 +66,80 @@
 <main class="container my-4">
     <h1 class="mb-4">Наши предприятия</h1>
 
-    <?php
-    // Подключение к базе данных
-    $host = 'localhost';
-    $dbname = 'web';
-    $username = 'root';
-    $password = '';
+    <div class="card mb-4">
+        <div class="card-body">
+            <form method="GET" action="" class="row g-3">
+                <div class="col-md-3">
+                    <label for="name" class="form-label">Название</label>
+                    <input type="text" class="form-control" id="name" name="name"
+                           value="<?php echo htmlspecialchars($nameFilter); ?>" placeholder="Поиск по названию">
+                </div>
+                <div class="col-md-2">
+                    <label for="region" class="form-label">Регион</label>
+                    <select class="form-select" id="region" name="region">
+                        <option value="">Все регионы</option>
+                        <?php foreach ($regions as $region): ?>
+                            <option
+                                    value="<?= $region['id'] ?>"
+                                <?= ($region['id'] == $regionFilter) ? 'selected' : '' ?>
+                            >
+                                <?= htmlspecialchars($region['name']) ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label for="description" class="form-label">Описание</label>
+                    <input type="text" class="form-control" id="description" name="description"
+                           value="<?php echo htmlspecialchars($descriptionFilter); ?>" placeholder="Поиск по описанию">
+                </div>
+                <div class="col-md-2">
+                    <label for="production" class="form-label">Выработка</label>
+                    <input type="text" class="form-control" id="production" name="production"
+                           value="<?php echo htmlspecialchars($productionFilter); ?>" placeholder="Точное значение">
+                </div>
+                <div class="col-md-2 d-flex align-items-end">
+                    <button type="submit" name="apply_filter" class="btn btn-primary me-2">Применить фильтр</button>
+                    <a href="?" class="btn btn-secondary">Сбросить</a>
+                </div>
+            </form>
+        </div>
+    </div>
 
-    try {
-        $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password);
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-        // Получаем список регионов для выпадающего списка
-        $regions = $pdo->query("SELECT id, name FROM regions")->fetchAll(PDO::FETCH_ASSOC);
-
-
-        // Функции валидации
-        function validateNumber($value) {
-            if ($value === '') return null;
-            // Удаляем пробелы и заменяем запятые на точки
-            $cleaned = str_replace([' ', ','], ['', '.'], $value);
-            // Проверяем, является ли числом
-            if (!is_numeric($cleaned)) {
-                return null;
-            }
-            return (float)$cleaned;
-        }
-
-        function sanitizeText($text) {
-            // Удаляем HTML/XML теги
-            $cleaned = strip_tags($text);
-            // Экранируем специальные символы SQL
-            $cleaned = str_replace(
-                ['\\', '\'', '"', "\0", "\n", "\r", "\x1a"],
-                ['\\\\', '\\\'', '\\"', '\\0', '\\n', '\\r', '\\Z'],
-                $cleaned
-            );
-            return $cleaned;
-        }
-
-
-        // Получаем параметры фильтрации из GET-запроса
-        $nameFilter = isset($_GET['name']) ? sanitizeText($_GET['name']) : '';
-        $regionFilter = isset($_GET['region']) ? (int)$_GET['region'] : 0;
-        $descriptionFilter = isset($_GET['description']) ? sanitizeText($_GET['description']) : '';
-        $productionFilter = isset($_GET['production']) ? validateNumber($_GET['production']) : null;
-
-
-        // Формируем базовый SQL запрос
-        $sql = "SELECT e.id, e.facade_photo, e.name, r.name as region_name, e.description, e.production, e.region_Id
-            FROM enterprises e 
-            INNER JOIN regions r ON e.region_Id = r.id";
-
-        // Добавляем условия WHERE в зависимости от заполненных фильтров
-        $whereConditions = [];
-        $params = [];
-
-        if (!empty($nameFilter)) {
-            $whereConditions[] = "e.name LIKE :name";
-            $params[':name'] = '%' . $nameFilter . '%';
-        }
-
-        if (!empty($regionFilter)) {
-            $whereConditions[] = "e.region_Id = :region";
-            $params[':region'] = $regionFilter;
-        }
-
-        if (!empty($descriptionFilter)) {
-            $whereConditions[] = "e.description LIKE :description";
-            $params[':description'] = '%' . $descriptionFilter . '%';
-        }
-
-        if (!empty($productionFilter)) {
-            $whereConditions[] = "e.production = :production";
-            $params[':production'] = str_replace([' ', ','], ['', '.'], $productionFilter);
-        }
-
-        // Добавляем условия WHERE к запросу, если они есть
-        if (!empty($whereConditions)) {
-            $sql .= " WHERE " . implode(" AND ", $whereConditions);
-        }
-
-        $sql .= " ORDER BY e.production DESC";
-
-        // Подготавливаем и выполняем запрос
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute($params);
-
-        // Выводим форму фильтрации
-        echo '<div class="card mb-4">
-            <div class="card-body">
-                <form method="GET" action="" class="row g-3">
-                    <div class="col-md-3">
-                        <label for="name" class="form-label">Название</label>
-                        <input type="text" class="form-control" id="name" name="name" 
-                               value="' . htmlspecialchars($nameFilter) . '" placeholder="Поиск по названию">
-                    </div>
-                    <div class="col-md-2">
-                        <label for="region" class="form-label">Регион</label>
-                        <select class="form-select" id="region" name="region">
-                            <option value="">Все регионы</option>';
-
-        foreach ($regions as $region) {
-            $selected = ($region['id'] == $regionFilter) ? 'selected' : '';
-            echo '<option value="' . $region['id'] . '" ' . $selected . '>' . htmlspecialchars($region['name']) . '</option>';
-        }
-
-        echo '</select>
-                    </div>
-                    <div class="col-md-3">
-                        <label for="description" class="form-label">Описание</label>
-                        <input type="text" class="form-control" id="description" name="description" 
-                               value="' . htmlspecialchars($descriptionFilter) . '" placeholder="Поиск по описанию">
-                    </div>
-                    <div class="col-md-2">
-                        <label for="production" class="form-label">Выработка</label>
-                        <input type="text" class="form-control" id="production" name="production" 
-                               value="' . htmlspecialchars($productionFilter) . '" placeholder="Точное значение">
-                    </div>
-                    <div class="col-md-2 d-flex align-items-end">
-                        <button type="submit" name="apply_filter" class="btn btn-primary me-2">Применить фильтр</button>
-                        <a href="?" class="btn btn-secondary">Сбросить</a>
-                    </div>
-                </form>
-            </div>
-          </div>';
-
-        // Выводим таблицу с данными
-        if ($stmt->rowCount() > 0) {
-            echo '<div class="table-responsive">
-                <table class="enterprises-table">
-                    <thead>
-                        <tr>
-                            <th>Фото фасада</th>
-                            <th>Название</th>
-                            <th>Регион</th>
-                            <th>Описание</th>
-                            <th>Выработка в год (руб.)</th>
-                        </tr>
-                    </thead>
-                    <tbody>';
-
-            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                // Форматируем сумму выработки
-                $productionFormatted = number_format($row['production'], 2, ',', ' ');
-
-                echo '<tr class="region-' . $row['region_Id'] . '">
-                    <td><img src="facade_images/' . htmlspecialchars($row['facade_photo']) . '" alt="Фасад ' . htmlspecialchars($row['name']) . '" class="enterprise-image"></td>
-                    <td>' . htmlspecialchars($row['name']) . '</td>
-                    <td>' . htmlspecialchars($row['region_name']) . '</td>
-                    <td>' . htmlspecialchars($row['description']) . '</td>
-                    <td class="production-cell">' . $productionFormatted . '</td>
-                </tr>';
-            }
-
-            echo '</tbody>
-                </table>
-            </div>';
-        } else {
-            echo '<div class="alert alert-info">Нет данных о предприятиях, соответствующих заданным фильтрам</div>';
-        }
-    } catch (PDOException $e) {
-        echo '<div class="alert alert-danger">Ошибка при получении данных: ' . htmlspecialchars($e->getMessage()) . '</div>';
-    }
-    ?>
-
+    <?php if (count($enterprises) > 0): ?>
+        <div class="table-responsive">
+            <table class="enterprises-table">
+                <thead>
+                <tr>
+                    <th>Фото фасада</th>
+                    <th>Название</th>
+                    <th>Регион</th>
+                    <th>Описание</th>
+                    <th>Выработка в год (руб.)</th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php foreach ($enterprises as $row): ?>
+                    <?php $productionFormatted = number_format($row['production'], 2, ',', ' '); ?>
+                    <tr class="region-<?php echo $row['region_Id']; ?>">
+                        <td>
+                            <img src="facade_images/<?php echo htmlspecialchars($row['facade_photo']); ?>"
+                                 alt="Фасад <?php echo htmlspecialchars($row['name']); ?>"
+                                 class="enterprise-image">
+                        </td>
+                        <td><?php echo htmlspecialchars($row['name']); ?></td>
+                        <td><?php echo htmlspecialchars($row['region_name']); ?></td>
+                        <td><?php echo htmlspecialchars($row['description']); ?></td>
+                        <td class="production-cell"><?php echo $productionFormatted; ?></td>
+                    </tr>
+                <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+    <?php else: ?>
+        <div class="alert alert-info">Нет данных о предприятиях, соответствующих заданным фильтрам</div>
+    <?php endif; ?>
 </main>
-
 
 <footer>
     <nav class="navbar navbar-expand-lg navbar-light bg-light mt-3">
