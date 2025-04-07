@@ -79,11 +79,38 @@
         // Получаем список регионов для выпадающего списка
         $regions = $pdo->query("SELECT id, name FROM regions")->fetchAll(PDO::FETCH_ASSOC);
 
+
+        // Функции валидации
+        function validateNumber($value) {
+            if ($value === '') return null;
+            // Удаляем пробелы и заменяем запятые на точки
+            $cleaned = str_replace([' ', ','], ['', '.'], $value);
+            // Проверяем, является ли числом
+            if (!is_numeric($cleaned)) {
+                return null;
+            }
+            return (float)$cleaned;
+        }
+
+        function sanitizeText($text) {
+            // Удаляем HTML/XML теги
+            $cleaned = strip_tags($text);
+            // Экранируем специальные символы SQL
+            $cleaned = str_replace(
+                ['\\', '\'', '"', "\0", "\n", "\r", "\x1a"],
+                ['\\\\', '\\\'', '\\"', '\\0', '\\n', '\\r', '\\Z'],
+                $cleaned
+            );
+            return $cleaned;
+        }
+
+
         // Получаем параметры фильтрации из GET-запроса
-        $nameFilter = $_GET['name'] ?? '';
-        $regionFilter = $_GET['region'] ?? '';
-        $descriptionFilter = $_GET['description'] ?? '';
-        $productionFilter = $_GET['production'] ?? '';
+        $nameFilter = isset($_GET['name']) ? sanitizeText($_GET['name']) : '';
+        $regionFilter = isset($_GET['region']) ? (int)$_GET['region'] : 0;
+        $descriptionFilter = isset($_GET['description']) ? sanitizeText($_GET['description']) : '';
+        $productionFilter = isset($_GET['production']) ? validateNumber($_GET['production']) : null;
+
 
         // Формируем базовый SQL запрос
         $sql = "SELECT e.id, e.facade_photo, e.name, r.name as region_name, e.description, e.production, e.region_Id
